@@ -3,6 +3,8 @@ import React from "react";
 import tailwind from "twrnc";
 import { Icon } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { selectOrigin } from "../slices/navSlice";
 
 // create a array of objects with tis elements: id, title, image, screen
 const data = [
@@ -22,6 +24,7 @@ const data = [
 
 const NavOptions = () => {
   const navigation = useNavigation();
+  const origin = useSelector(selectOrigin);
   return (
     <FlatList
       data={data}
@@ -30,7 +33,10 @@ const NavOptions = () => {
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => navigation.navigate(item.screen)}
-          style={tailwind`p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
+          style={tailwind`p-2 pl-6 pb-8 pt-4 ${
+            !origin ? "opacity-60" : ""
+          }bg-gray-200 m-2 w-40`}
+          disabled={!origin}
         >
           <View>
             <Image
